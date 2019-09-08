@@ -1,12 +1,11 @@
 import React from 'react'
 import 'aframe'
+// import Environment from './components/environment/'
 import Terrain from './components/terrain/'
-import Environment from './components/environment/'
 function App () {
   return (
     <a-scene>
-      <Terrain />
-      <Environment />
+<Terrain/>
     </a-scene>
   )
 }
