@@ -1,12 +1,20 @@
 import React from 'react'
 import 'aframe'
-// import Environment from './components/environment/'
+import 'aframe-physics-system'
+import 'aframe-teleport-controls'
+import Environment from './components/environment/'
 import Terrain from './components/terrain/'
+import UserRig from './components/userRig/'
 function App () {
   return (
-    <a-scene>
-<Terrain/>
-    </a-scene>
+    <div>
+      <h1>hello werld</h1>
+      <a-scene physics='debug:true;gravity:-9.8;'>
+        {/* <Terrain /> */}
+        <Environment />
+        <UserRig />
+      </a-scene>
+    </div>
   )
 }
 

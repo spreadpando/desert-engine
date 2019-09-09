@@ -11,7 +11,7 @@ class Terrain extends React.Component {
     mountVR()
   }
   render () {
-    return <a-entity id='terrain' />
+    return <a-entity className='collidable' id='terrain' />
   }
 }
 

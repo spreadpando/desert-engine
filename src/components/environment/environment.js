@@ -7,9 +7,10 @@ const mountVR = () => {
 	    preset: {default: 'default', oneOf: ['none', 'default', 'contact', 'egypt', 'checkerboard', 'forest', 'goaland', 'yavapai', 'goldmine', 'arches', 'threetowers', 'poison', 'tron', 'japan', 'dream', 'volcano', 'starry', 'osiris']},
 	    seed: {type: 'int', default: 1, min: 0, max: 1000},
 
+		skySrc: {default:null},
 	    skyType: {default: 'color', oneOf:['none', 'color', 'gradient', 'atmosphere']},
 	    skyColor: {type: 'color'},
-	    horizonColor: {type: 'color'},
+		horizonColor: {type: 'color'},
 	    lighting: {default: 'distant', oneOf: ['none', 'distant', 'point']},
 	    shadow: {default: false},
 	    shadowSize: { default: 10},
@@ -145,7 +146,8 @@ const mountVR = () => {
 	    this.userFog = this.el.sceneEl.getAttribute('fog');
 
 	    // create sky
-	    this.sky = document.createElement('a-sky');
+		this.sky = document.createElement('a-sky');
+		this.sky.setAttribute('src','/assets/waves.png')
 	    this.sky.setAttribute('radius', this.STAGE_SIZE);
 	    this.sky.setAttribute('theta-length', 110);
 	    this.sky.classList.add('environment');
@@ -278,44 +280,43 @@ const mountVR = () => {
 	    }
 
 	    // update sky colors
-	    if (skyType !== oldData.skyType ||
-	      this.environmentData.skyColor !== oldData.skyColor ||
-	      this.environmentData.horizonColor !== oldData.horizonColor) {
+	    // if (skyType !== oldData.skyType ||
+	    //   this.environmentData.skyColor !== oldData.skyColor ||
+	    //   this.environmentData.horizonColor !== oldData.horizonColor) {
 
-	      this.sky.removeAttribute('material');
+	    //   this.sky.removeAttribute('material');
 
-	      var mat = {};
-	      mat.shader = {'none': 'flat', 'color': 'flat', 'gradient': 'gradientshader', 'atmosphere': 'skyshader'}[skyType];
-	      if (this.stars) {
-	        this.stars.setAttribute('visible', skyType === 'atmosphere');
-	      }
-	      if (skyType === 'color') {
-	        mat.color = this.environmentData.skyColor;
-	        mat.fog = false;
-	      }
-	      else if (skyType === 'gradient') {
-	        mat.topColor = this.environmentData.skyColor;
-	        mat.bottomColor = this.environmentData.horizonColor;
-	      }
-	      this.sky.setAttribute('material', mat);
-	    }
+	    //   var mat = {};
+	    //   mat.shader = {'none': 'flat', 'color': 'flat', 'gradient': 'gradientshader', 'atmosphere': 'skyshader'}[skyType];
+	    //   if (this.stars) {
+	    //     this.stars.setAttribute('visible', skyType === 'atmosphere');
+	    //   }
+	    //   if (skyType === 'color') {
+	    //     mat.color = this.environmentData.skyColor;
+	    //     mat.fog = false;
+	    //   }
+	    //   else if (skyType === 'gradient') {
+	    //     mat.topColor = this.environmentData.skyColor;
+	    //     mat.bottomColor = this.environmentData.horizonColor;
+	    //   }
+	    // }
 
-	    // set atmosphere sun position and stars
-	    if (skyType === 'atmosphere') {
-	      this.sky.setAttribute('material', {'sunPosition': sunPos});
-	      this.setStars((1 - Math.max(0, (sunPos.y + 0.08) * 8)) * 2000 );
-	    }
+	    // // set atmosphere sun position and stars
+	    // if (skyType === 'atmosphere') {
+	    //   this.sky.setAttribute('material', {'sunPosition': sunPos});
+	    //   this.setStars((1 - Math.max(0, (sunPos.y + 0.08) * 8)) * 2000 );
+	    // }
 
-	    // set fog color
-	    if (this.environmentData.fog > 0) {
-	      this.el.sceneEl.setAttribute('fog', {
-	        color: this.getFogColor(skyType, sunPos.y),
-	        far: (1.01 - this.environmentData.fog) * this.STAGE_SIZE * 2
-	      });
-	    }
-	    else {
-	      this.el.sceneEl.removeAttribute('fog');
-	    }
+	    // // set fog color
+	    // if (this.environmentData.fog > 0) {
+	    //   this.el.sceneEl.setAttribute('fog', {
+	    //     color: this.getFogColor(skyType, sunPos.y),
+	    //     far: (1.01 - this.environmentData.fog) * this.STAGE_SIZE * 2
+	    //   });
+	    // }
+	    // else {
+	    //   this.el.sceneEl.removeAttribute('fog');
+	    // }
 
 	    // scene lights
 	    this.sunlight.setAttribute('light', {type: this.environmentData.lighting === 'point' ? 'point' : 'directional'});
@@ -763,8 +764,7 @@ const mountVR = () => {
 
 	  // returns an array of THREE.Geometry for set dressing
 	  getAssetGeometry: function(data) {
-	    if (!data) return null;
-	    var geoset = [];
+	    if (!data)   var geoset = [];
 	    var self = this;
 
 	    function applyNoise(geo, noise) {
